@@ -1,7 +1,8 @@
-#ifndef HELLO_H
-#define HELLO_H
+#ifndef QUICKSORT_H
+#define QUICKSORT_H
 
-void say_hello();
+void quicksort(int * arr, int low, int high);
+int partition(int arr[], int low, int high);
 
 #endif
 
