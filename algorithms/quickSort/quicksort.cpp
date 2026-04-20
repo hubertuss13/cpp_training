@@ -13,8 +13,8 @@ void quicksort(int * arr, int low, int high)
         return;
 
     int pivotIndex = partition(arr, low, high);     // podziel tablicę względem pivota (na lewo mniejsze, na prawo większe)
-    quicksort(arr, low, pivotIndex - 1);    // sortuj lewą część (mniejsze od pivota)
-    quicksort(arr, pivotIndex + 1, high);   // sortuj prawą część (większe od pivota)
+    quicksort(arr, low, pivotIndex - 1);            // sortuj lewą część (mniejsze od pivota)
+    quicksort(arr, pivotIndex + 1, high);           // sortuj prawą część (większe od pivota)
 }
 
 
