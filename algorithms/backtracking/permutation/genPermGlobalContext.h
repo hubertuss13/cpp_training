@@ -1,0 +1,6 @@
+#ifndef GEN_PERM_GLOBAL_CONTEXT_H
+#define GEN_PERM_GLOBAL_CONTEXT_H
+
+
+
+#endif
