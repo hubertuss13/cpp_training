@@ -4,7 +4,7 @@
 int binarySearchRecursive(std::vector<int> & arr, int target, int left, int right)
 {
     // przedział pusty -> nie znaleziono
-    if (left >= right) return -1;
+    if (left > right) return -1;
 
     int mid = left + (right - left) / 2;
     if (arr[mid] == target) {
