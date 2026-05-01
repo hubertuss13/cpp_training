@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-namespace sets
+namespace basic
 {
     const std::vector<int> collection = {1, 2, 3};
     const int N = collection.size();
@@ -37,7 +37,7 @@ namespace sets
 
 int main()
 {
-    sets::genSubset(0);
-    std::cout << "Number of subsets: " << sets::cnt << std::endl;
+    basic::genSubset(0);
+    std::cout << "Number of subsets: " << basic::cnt << std::endl;
     return 0;
 }
