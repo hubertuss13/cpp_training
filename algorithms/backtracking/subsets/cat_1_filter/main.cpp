@@ -127,9 +127,63 @@ namespace target_length
     }
 }
 
+namespace even_sum
+{
+    const std::vector<int> collection = {1, 2, 3, 4};
+    const int N = collection.size();
+    std::vector<int> current;
+    int currentSubsetSum = 0;   // śledzimy sumę na bieżąco – tak jak przy sumie TARGET
+    int cnt = 0;
+
+    void printTargetSubset()
+    {
+        cnt++;
+        std::cout << "[ ";
+        for (int x : current)
+            std::cout << x << " ";
+        std::cout << "]\n";
+    }
+
+    void genSubset(int index)
+    {
+        // WARUNEK STOPU: rozpatrzyliśmy wszystkie elementy.
+        // Sprawdzamy parzystość sumy – wypisujemy tylko gdy parzysta.
+        // Nie ma tu żadnego pruningu – musimy zawsze dojść do liścia drzewa.
+        if (index == N)
+        {
+            if (currentSubsetSum % 2 == 0)
+            {
+                printTargetSubset();
+            }
+            return;
+        }
+
+        // DECYZJA 1: collection[index]
+        current.push_back(collection[index]);
+        currentSubsetSum += collection[index];
+        genSubset(index + 1);                   // idziemy glebiej
+        current.pop_back();                     // cofamy element
+        currentSubsetSum -= collection[index];  // cofamy sumę
+
+        // DECYZJA 2: pomijamy collection[index]
+        genSubset(index + 1);
+    }
+
+    void test_gen_subset_with_even_sum()
+    {
+        std::cout << "Initial set: [ ";
+        for (int i : even_sum::collection) std::cout << i << " ";
+        std::cout << "]\n";
+        std::cout << "Subsets with even sum:\n";
+        even_sum::genSubset(0);
+        std::cout << "Cnt: " << even_sum::cnt << std::endl;
+    }
+}
+
 int main()
 {
     target_sum::test_gen_subset_with_target_sum_equal_to_target();
     target_length::test_gen_subset_with_given_K_length();
+    even_sum::test_gen_subset_with_even_sum();
     return 0;
 }
