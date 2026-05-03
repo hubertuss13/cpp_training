@@ -54,6 +54,7 @@ namespace target_sum
         current.pop_back();                         // cofamy
         currentSubsetSum -= collection[index];      // cofamy sumę
 
+        // DECYZJA 2: pomijamy collection[index]
         genSubset(index + 1);
     }
 
@@ -95,7 +96,7 @@ namespace target_length
         // PRUNING A: mamy już za dużo elementów – ta gałąź nie ma sensu
         // USUNIĘTY->zakomentowany, bo nigdy nie był osiągany w tej implementacji
         // tzn. Warunek stopu działa jak "sufit" – gdy current.size() == K zawsze wracamy, więc current.size() nigdy nie ma szansy przekroczyć K
-        if (static_cast<int>(current.size()) > K) return;
+        // if (static_cast<int>(current.size()) > K) return;
 
         // PRUNING C: zostało za mało elementów żeby dobić do K
         if ((N - index) < (K - static_cast<int>(current.size()))) return;
@@ -158,7 +159,7 @@ namespace even_sum
             return;
         }
 
-        // DECYZJA 1: collection[index]
+        // DECYZJA 1: bierzemy collection[index]x]
         current.push_back(collection[index]);
         currentSubsetSum += collection[index];
         genSubset(index + 1);                   // idziemy glebiej
