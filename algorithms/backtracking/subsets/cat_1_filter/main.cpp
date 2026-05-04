@@ -181,10 +181,57 @@ namespace even_sum
     }
 }
 
+namespace no_neighbors
+{
+    const std::vector<int> collection = {1, 2, 3, 4};
+    const int N = collection.size();
+    std::vector<int> current;
+    int cnt = 0;
+
+    void printSubset()
+    {
+        cnt++;
+        std::cout << "[ ";
+        for (int x : current)
+            std::cout << x << " ";
+        std::cout << "]\n";
+    }
+
+    void genSubset(int index, int lastIndex)
+    {
+        if (index == N)
+        {
+            printSubset();
+            return;
+        }
+
+        if (current.empty() == true ||
+            index - lastIndex != 1)
+        {
+            current.push_back(collection[index]);
+            genSubset(index + 1, index);
+            current.pop_back();
+        }
+
+        genSubset(index + 1, lastIndex);
+    }
+
+    void test_gen_subset_with_no_close_neighbours()
+    {
+        std::cout << "Initial set: [ ";
+        for (int i : no_neighbors::collection) std::cout << i << " ";
+        std::cout << "]\n";
+        std::cout << "Subsets with no close neighbours:\n";
+        no_neighbors::genSubset(0, -1);
+        std::cout << "Cnt: " << no_neighbors::cnt << std::endl;
+    }
+}
+
 int main()
 {
-    target_sum::test_gen_subset_with_target_sum_equal_to_target();
-    target_length::test_gen_subset_with_given_K_length();
-    even_sum::test_gen_subset_with_even_sum();
+    //target_sum::test_gen_subset_with_target_sum_equal_to_target();
+    //target_length::test_gen_subset_with_given_K_length();
+    //even_sum::test_gen_subset_with_even_sum();
+    no_neighbors::test_gen_subset_with_no_close_neighbours();
     return 0;
 }
