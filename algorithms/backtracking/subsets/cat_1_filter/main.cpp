@@ -228,7 +228,7 @@ namespace no_neighbors
         for (int i : no_neighbors::collection) std::cout << i << " ";
         std::cout << "]\n";
         std::cout << "Subsets with no close neighbours:\n";
-        no_neighbors::genSubset(0, -1);
+        no_neighbors::genSubset(0, -1);     // lastIndex = -1 bo na starcie nic nie wzięliśmy
         std::cout << "Cnt: " << no_neighbors::cnt << std::endl;
     }
 }
