@@ -199,20 +199,26 @@ namespace no_neighbors
 
     void genSubset(int index, int lastIndex)
     {
+        // WARUNEK STOPU: rozpatrzyliśmy wszystkie elementy – wypisujemy subset
         if (index == N)
         {
             printSubset();
             return;
         }
 
+    // DECYZJA 1: bierzemy collection[index] – ale tylko jeśli nie sąsiaduje z poprzednim.
+    // lub gdy current jest pusty (pierwszy element)
+    // Sprawdzamy tuż przed wzięciem, nie na początku funkcji –
+    // bo pominięcie elementu jest zawsze legalne i nie może być blokowane.
         if (current.empty() == true ||
             index - lastIndex != 1)
         {
             current.push_back(collection[index]);
-            genSubset(index + 1, index);
+            genSubset(index + 1, index);    // lastIndex = index, bo właśnie wzięliśmy ten element
             current.pop_back();
         }
 
+        // DECYZJA 2: pomijamy collection[index] – zawsze legalne, lastIndex się nie zmienia
         genSubset(index + 1, lastIndex);
     }
 
@@ -229,9 +235,9 @@ namespace no_neighbors
 
 int main()
 {
-    //target_sum::test_gen_subset_with_target_sum_equal_to_target();
-    //target_length::test_gen_subset_with_given_K_length();
-    //even_sum::test_gen_subset_with_even_sum();
+    target_sum::test_gen_subset_with_target_sum_equal_to_target();
+    target_length::test_gen_subset_with_given_K_length();
+    even_sum::test_gen_subset_with_even_sum();
     no_neighbors::test_gen_subset_with_no_close_neighbours();
     return 0;
 }
