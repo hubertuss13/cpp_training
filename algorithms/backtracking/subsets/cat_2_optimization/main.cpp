@@ -6,7 +6,6 @@
 
 namespace sum_closest_to_target
 {
-
     const std::vector<int> collection = {3, 4, 5, 7};
     const int N = collection.size();
     const int target = 11;
@@ -46,7 +45,11 @@ namespace sum_closest_to_target
         std::copy(bestSubset.begin(), bestSubset.end(), std::ostream_iterator<int>(std::cout, " "));
         std::cout << "] and bestSum is:" << bestSum << std::endl;
     }
+}
 
+namespace shortest_subset_with_target_sum
+{
+    
 }
 
 
