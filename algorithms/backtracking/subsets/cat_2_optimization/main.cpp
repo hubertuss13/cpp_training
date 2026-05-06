@@ -98,7 +98,7 @@ namespace shortest_subset_with_target_sum
 
 int main()
 {
-    //sum_closest_to_target::test_subset_sum_closest_to_target();
+    sum_closest_to_target::test_subset_sum_closest_to_target();
     shortest_subset_with_target_sum::test_best_subset_with_shortest_length_and_target_sum_greater_than_condition();
     return 0;
 }
