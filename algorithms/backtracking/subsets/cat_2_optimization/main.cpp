@@ -40,7 +40,7 @@ namespace sum_closest_to_target
     {
         genSubset(0);
         std::cout << "Best subset with target=" << target << " from original set [ ";
-        std::copy(collection.begin(), collection.end(), std::ostream_iterator<int>(std::cout, " ")); 
+        std::copy(collection.begin(), collection.end(), std::ostream_iterator<int>(std::cout, " "));
         std::cout << "] is: \n[ ";
         std::copy(bestSubset.begin(), bestSubset.end(), std::ostream_iterator<int>(std::cout, " "));
         std::cout << "] and bestSum is:" << bestSum << std::endl;
@@ -49,13 +49,57 @@ namespace sum_closest_to_target
 
 namespace shortest_subset_with_target_sum
 {
-    
+    const std::vector<int> collection = {2, 3, 5, 7, 1};
+    const int N = collection.size();
+    const int target = 8;
+
+    std::vector<int> current;
+    int currentSum = 0;
+    std::vector<int> bestSubset;
+    int bestLength = N;
+
+    void genSubset(int index)
+    {
+        if ((int)current.size() >= bestLength) return;
+
+        if (index == N)
+        {
+            if (currentSum >= target && (int)current.size() < bestLength)
+            {
+                bestLength = current.size();
+                bestSubset = current;
+            }
+            return;
+        }
+
+        current.push_back(collection[index]);
+        currentSum += collection[index];
+
+        genSubset(index + 1);
+
+        current.pop_back();
+        currentSum -= collection[index];
+
+        genSubset(index + 1);
+    }
+
+    void test_best_subset_with_shortest_length_and_target_sum_greater_than_condition()
+    {
+        genSubset(0);
+        std::cout << "Original subset: [ ";
+        std::copy(collection.begin(), collection.end(), std::ostream_iterator<int>(std::cout, " "));
+        std::cout << "]\n";
+        std::cout << "The shortest subset with sum >= " << target << " and shortest length = " << bestLength << " is: [ ";
+        std::copy(bestSubset.begin(), bestSubset.end(), std::ostream_iterator<int>(std::cout, " "));
+        std::cout << "]\n";
+    }
 }
 
 
 int main()
 {
-    sum_closest_to_target::test_subset_sum_closest_to_target();
-
+    //sum_closest_to_target::test_subset_sum_closest_to_target();
+    shortest_subset_with_target_sum::test_best_subset_with_shortest_length_and_target_sum_greater_than_condition();
     return 0;
 }
+
