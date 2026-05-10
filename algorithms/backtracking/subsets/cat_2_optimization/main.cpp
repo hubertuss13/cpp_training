@@ -45,7 +45,7 @@ namespace sum_closest_to_target
         std::copy(bestSubset.begin(), bestSubset.end(), std::ostream_iterator<int>(std::cout, " "));
         std::cout << "] and bestSum is:" << bestSum << std::endl;
     }
-}
+}  // namespace sum_closest_to_target
 
 namespace shortest_subset_with_target_sum
 {
@@ -93,13 +93,108 @@ namespace shortest_subset_with_target_sum
         std::copy(bestSubset.begin(), bestSubset.end(), std::ostream_iterator<int>(std::cout, " "));
         std::cout << "]\n";
     }
+}   // namespace shortest_subset_with_target_sum
+
+namespace knapsack
+{
+//Przedmioty:
+//┌─────────────┬──────┬────────┐
+//│ Przedmiot   │ Waga │ Wartość│
+//├─────────────┼──────┼────────┤
+//│ laptop      │  3   │   4    │
+//│ telefon     │  1   │   3    │
+//│ ksiazka     │  2   │   2    │
+//│ słuchawki   │  2   │   3    │
+//└─────────────┴──────┴────────┘
+// Limit wagi plecaka: W = 4
+// Cel: wybierz subset przedmiotów o maksymalnej wartości nie przekraczając limitu wagi W.
+
+struct Item
+{
+    std::string name;
+    int weight;
+    int value;
+};
+
+const std::vector<Item> ITEMS = {
+    {"laptop", 3, 4},
+    {"telefon", 1, 3},
+    {"ksiazka", 2, 2},
+    {"sluchawki", 2, 3}
+};
+const int N = ITEMS.size();
+const int W = 4;    // limit wagi plecaka
+
+// Stan aktualnie budowanego subsetu
+std::vector<int> current;   // indeksy wybranych przedmiotów
+int currentWeight = 0;
+int currentValue = 0;
+
+// Najlepszy wynik znaleziony do tej pory
+std::vector<int> bestSubset;    // indeksy najlepszego subsetu
+int bestValue = 0;              // jego wartość
+
+// ─────────────────────────────────────────────
+// Trzymamy indeksy zamiast nazw/wartości –
+// dzięki temu z bestSubset możemy później
+// odczytać dowolną informację o przedmiocie
+// ─────────────────────────────────────────────
+void genSubset(int index)
+{
+    // PRUNING: waga przekroczyła limit –
+    // dodawanie kolejnych elementów tylko pogorszy sytuację i nie ma sensu
+    if (currentWeight > W) return;
+
+    // WARUNEK STOPU: rozpatrzyliśmy wszystkie przedmioty
+    if (index == N)
+    {
+        // warunek aktualizacji najlepszego subsetu
+        if (currentWeight <= W && currentValue > bestValue)
+        {
+            bestSubset = current;
+            bestValue = currentValue;
+        }
+        return;
+    }
+
+    // DECYZJA 1: bierzemy ITEMS[index] do plecaka
+    current.push_back(index);
+    currentWeight += ITEMS[index].weight;
+    currentValue += ITEMS[index].value;
+
+    genSubset(index + 1);   // idziemy głębiej
+
+    current.pop_back();     // cofamy
+    currentWeight -= ITEMS[index].weight;
+    currentValue -= ITEMS[index].value;
+
+    // DECYZJA 2: pomijamy ITEMS[index]
+    genSubset(index + 1);
 }
+
+void test_knapsack()
+{
+    genSubset(0);
+    std::cout << "The best subset (W=" << W << "):" << std::endl;
+    int totalWeight = 0, totalValue = 0;
+    for (int i : bestSubset) {
+        std::cout << "  " << ITEMS[i].name
+            << "  weight=" << ITEMS[i].weight
+            << "  value=" << ITEMS[i].value << std::endl;
+        totalWeight += ITEMS[i].weight;
+        totalValue += ITEMS[i].value;
+    }
+    std::cout << "Total: weight=" << totalWeight << "  value=" << totalValue << std::endl;
+}
+
+}   // namespace knapsack
 
 
 int main()
 {
-    sum_closest_to_target::test_subset_sum_closest_to_target();
-    shortest_subset_with_target_sum::test_best_subset_with_shortest_length_and_target_sum_greater_than_condition();
+    //sum_closest_to_target::test_subset_sum_closest_to_target();
+    //shortest_subset_with_target_sum::test_best_subset_with_shortest_length_and_target_sum_greater_than_condition();
+    knapsack::test_knapsack();
     return 0;
 }
 
