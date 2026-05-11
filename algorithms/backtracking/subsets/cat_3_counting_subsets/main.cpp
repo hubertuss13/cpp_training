@@ -99,12 +99,62 @@ namespace counting_subsets_with_non_adjacent_elements
     const std::vector<int> collection = {1, 2, 3, 4};
     const int N = collection.size();
     int cnt = 0;
+    std::vector<int> current;
+
+
+    void genSubset(int index, int lastIndex)
+    {
+        if (N == index)
+        {
+            cnt++;
+            return;
+        }
+
+        if (current.size() == 0 || index - lastIndex != 1)
+        {
+            current.push_back(collection[index]);
+            genSubset(index + 1, index);
+            current.pop_back();
+        }
+
+        genSubset(index + 1, lastIndex);
+    }
+
+    // Alternatywna implementacja bez uzycia current
+    // void genSubset(int index, int lastIndex)
+    // {
+    //     if (N == index)
+    //     {
+    //         cnt++;
+    //         return;
+    //     }
+
+    //     if (lastIndex == -1 || index - lastIndex != 1)
+    //     {
+    //         genSubset(index + 1, index);  // bierzemy
+    //     }
+    //     genSubset(index + 1, lastIndex);  // pomijamy
+    // }
+
+
+    void test_subset_count_with_non_adjacent_elements()
+    {
+        genSubset(0, -1);
+        std::cout << "Original subset: [ ";
+        for (auto x : collection)
+            std::cout << x << " ";
+        std::cout << "]\n";
+        std::cout << "Number of subsets with non adjacent elements is: " << cnt << std::endl;
+    }
+
+
 }   // namespace counting_subsets_with_non_adjacent_elements
 
 int main()
 {
     //counting_subsets_with_sum_equal_to_target::test_subset_count_with_target_sum();
-    counting_subsets_with_even_number_of_elements::test_subset_count_number_of_even_elements();
+    //counting_subsets_with_even_number_of_elements::test_subset_count_number_of_even_elements();
+    counting_subsets_with_non_adjacent_elements::test_subset_count_with_non_adjacent_elements();
 
     return 0;
 }
