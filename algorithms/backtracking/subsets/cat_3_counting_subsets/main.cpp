@@ -1,8 +1,17 @@
 #include <iostream>
 #include <vector>
 
+
+// Zadania - Kategoria 3 – Zliczanie (ile subsetów spełnia warunek?)
+// 1. Ile subsetów ma sumę równą TARGET?
+// 2. Ile subsetów ma parzystą liczbę elementów?
+// 3. Ile subsetów nie zawiera dwóch kolejnych liczb (bez sasiadow)?
+
+
 namespace counting_subsets_with_sum_equal_to_target
 {
+    // Cel: Ze zbioru collection policz ile subsetów ma sumę równą TARGET?
+
     const std::vector<int> collection = {1, 2, 3, 4};
     const int N = collection.size();
     const int TARGET = 5;
@@ -43,8 +52,11 @@ namespace counting_subsets_with_sum_equal_to_target
 
 }   // namespace counting_subsets_with_sum_equal_to_target
 
+
 namespace counting_subsets_with_even_number_of_elements
 {
+    // Cel: Ze zbioru collection policz ile subsetów ma parzystą liczbę elementów?
+
     const std::vector<int> collection = {1, 2, 3, 4};
     const int N = collection.size();
     std::vector<int> current;
@@ -94,8 +106,11 @@ namespace counting_subsets_with_even_number_of_elements
 
 }   // namespace counting_subsets_with_even_number_of_elements
 
+
 namespace counting_subsets_with_non_adjacent_elements
 {
+    // Cel: Ze zbioru collection policz ile subsetów nie zawiera dwóch sąsiadujących elementów?
+
     const std::vector<int> collection = {1, 2, 3, 4};
     const int N = collection.size();
     int cnt = 0;
@@ -147,15 +162,14 @@ namespace counting_subsets_with_non_adjacent_elements
         std::cout << "Number of subsets with non adjacent elements is: " << cnt << std::endl;
     }
 
-
 }   // namespace counting_subsets_with_non_adjacent_elements
+
 
 int main()
 {
-    //counting_subsets_with_sum_equal_to_target::test_subset_count_with_target_sum();
-    //counting_subsets_with_even_number_of_elements::test_subset_count_number_of_even_elements();
+    counting_subsets_with_sum_equal_to_target::test_subset_count_with_target_sum();
+    counting_subsets_with_even_number_of_elements::test_subset_count_number_of_even_elements();
     counting_subsets_with_non_adjacent_elements::test_subset_count_with_non_adjacent_elements();
 
     return 0;
 }
-

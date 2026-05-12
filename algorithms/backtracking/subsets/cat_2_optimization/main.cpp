@@ -4,8 +4,18 @@
 #include <iterator>
 //#include <cstdlib>   // abs() dla int
 
+
+// Zadania - Kategoria 2 – Optymalizacja (znajdź najlepszy subset)
+// 1. Subset o sumie najbliższej wartości docelowej
+// 2, Najkrótszy subset o sumie >= target
+// 3. Maksymalna suma nieprzekraczająca limitu – klasyczny problem plecakowy (knapsack)
+
+
 namespace sum_closest_to_target
 {
+    // Cel: Ze zbioru collection znajdź subset, ktorego suma jest najblizsza TARGET
+    // (może być równa, może być mniejsza, może być większa)
+
     const std::vector<int> collection = {3, 4, 5, 7};
     const int N = collection.size();
     const int target = 11;
@@ -45,10 +55,15 @@ namespace sum_closest_to_target
         std::copy(bestSubset.begin(), bestSubset.end(), std::ostream_iterator<int>(std::cout, " "));
         std::cout << "] and bestSum is:" << bestSum << std::endl;
     }
+
 }  // namespace sum_closest_to_target
+
 
 namespace shortest_subset_with_target_sum
 {
+    // Cel: Ze zbioru collection znajdź subset o najmniejszej liczbie elementów
+    // którego suma jest większa lub równa TARGET
+
     const std::vector<int> collection = {2, 3, 5, 7, 1};
     const int N = collection.size();
     const int target = 8;
@@ -93,7 +108,9 @@ namespace shortest_subset_with_target_sum
         std::copy(bestSubset.begin(), bestSubset.end(), std::ostream_iterator<int>(std::cout, " "));
         std::cout << "]\n";
     }
+
 }   // namespace shortest_subset_with_target_sum
+
 
 namespace knapsack
 {
@@ -107,7 +124,7 @@ namespace knapsack
 //│ słuchawki   │  2   │   3    │
 //└─────────────┴──────┴────────┘
 // Limit wagi plecaka: W = 4
-// Cel: wybierz subset przedmiotów o maksymalnej wartości nie przekraczając limitu wagi W.
+// Cel: wybierz subset przedmiotów o maksymalnej wartości nie przekraczając limitu wagi W
 
 struct Item
 {
@@ -192,9 +209,8 @@ void test_knapsack()
 
 int main()
 {
-    //sum_closest_to_target::test_subset_sum_closest_to_target();
-    //shortest_subset_with_target_sum::test_best_subset_with_shortest_length_and_target_sum_greater_than_condition();
+    sum_closest_to_target::test_subset_sum_closest_to_target();
+    shortest_subset_with_target_sum::test_best_subset_with_shortest_length_and_target_sum_greater_than_condition();
     knapsack::test_knapsack();
     return 0;
 }
-

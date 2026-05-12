@@ -1,8 +1,18 @@
 #include <iostream>
 #include <vector>
 
+
+// Zadania - Kategoria 1 – Filtrowanie subsetów spelniajacych jakis warunek
+// 1. Subsety o konkretnej sumie TARGET
+// 2. Subsety o konkretnej dlugosci K
+// 3. Subsety o sumie parzystej
+// 4. Subsety bez sasiadow
+
+
 namespace target_sum
 {
+    // Cel: wygeneruj wszystkie subsety o sumie rownej TARGET
+
     const std::vector<int> collection = {1, 2, 3, 4};
     const int N = collection.size();
     std::vector<int> current;
@@ -67,10 +77,14 @@ namespace target_sum
         target_sum::genSubset(0);
         std::cout << "Cnt: " << target_sum::cnt << std::endl;
     }
-}
+
+}   // namespace target_sum
+
 
 namespace target_length
 {
+    // Cel: Ze zbioru collection wygeneruj wszystkie subsety o dlugosci K
+
     const std::vector<int> collection = {1, 2, 3, 4};
     const int N = collection.size();
     const int K = 2;    // szukamy subsetów o długości dokładnie K
@@ -126,10 +140,14 @@ namespace target_length
         target_length::genSubset(0);
         std::cout << "Cnt: " << target_length::cnt << std::endl;
     }
-}
+
+}   // namespace target_length
+
 
 namespace even_sum
 {
+    // Cel: Ze zbioru collection wygeneruj wszystkie subsety o sumie parzystej
+
     const std::vector<int> collection = {1, 2, 3, 4};
     const int N = collection.size();
     std::vector<int> current;
@@ -179,10 +197,15 @@ namespace even_sum
         even_sum::genSubset(0);
         std::cout << "Cnt: " << even_sum::cnt << std::endl;
     }
-}
+
+}   // namespace even_sum
+
 
 namespace no_neighbors
 {
+    // Cel: Ze zbioru collection wygeneruj wszystkie subsety bez sasiadow
+    // tzn. subsety gdzie żadne dwa elementy nie są sąsiadujące w oryginalnej tablicy collection
+
     const std::vector<int> collection = {1, 2, 3, 4};
     const int N = collection.size();
     std::vector<int> current;
@@ -231,7 +254,9 @@ namespace no_neighbors
         no_neighbors::genSubset(0, -1);     // lastIndex = -1 bo na starcie nic nie wzięliśmy
         std::cout << "Cnt: " << no_neighbors::cnt << std::endl;
     }
-}
+
+}   // namespace no_neighbors
+
 
 int main()
 {
