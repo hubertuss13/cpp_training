@@ -147,7 +147,7 @@ namespace balanced_partition
 
 int main()
 {
-    //equal_partition::test_partition();
+    equal_partition::test_partition();
     balanced_partition::test_balanced_partition();
     return 0;
 }
