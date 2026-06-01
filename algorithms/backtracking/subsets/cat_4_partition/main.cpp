@@ -63,7 +63,7 @@ namespace equal_partition
         genSubset(index + 1);
     }
 
-    void test_partition()
+    void test_equal_partition()
     {
         std::cout << "Original set: [ ";
         for (auto x : collection)
@@ -144,10 +144,116 @@ namespace balanced_partition
 
 }   // namespace balanced_partition
 
+namespace k_groups_with_equal_sum
+{
+    // Cel: podziel zbior collection na k grup o rownej sumie
+    const std::vector<int> collection = {4, 3, 2, 3, 5, 2, 1};
+    const int N = collection.size();
+    const int K = 4;
+    const int TOTAL = std::accumulate(collection.begin(), collection.end(), 0);
+    const int TARGET = TOTAL / K;  // suma, ktora musi osiagnac kazda z k grup
+
+    std::vector<int> groupsCurrentSum(K, 0);      // K grup - kazda trzyma swoja biezaca sume
+    std::vector<std::vector<int>> groupItems(K);  // Trzymamy które elementy (indeksy) trafiły do której grupy
+    std::vector<std::vector<int>> bestGroupItems; // Najlepszy znaleziony podział – zapisujemy w momencie znalezienia
+    bool found = false;
+
+    // ─────────────────────────────────────────────────────────────
+    // Dla każdego elementu collection[index] próbujemy wrzucić go
+    // do jednej z K grup. Pętla for zastępuje dwie gałęzie weź/pomiń
+    // z poprzednich zadań – tutaj mamy K gałęzi zamiast dwóch.
+    // ─────────────────────────────────────────────────────────────
+    void genSubset(int index)
+    {
+        // Już znaleźliśmy rozwiązanie – przerywamy całe przeszukiwanie
+        if (true == found) return;
+
+        // WARUNEK STOPU: wszystkie elementy przypisane do jakiejś grupy.
+        // Skoro żadna grupa nie przekroczyła TARGET podczas przypisywania
+        // i suma wszystkich grup == TOTAL == K * TARGET,
+        // to każda grupa musi mieć dokładnie TARGET.
+        if (index == N)
+        {
+            found = true;
+            // Zapisujemy stan grup w momencie znalezienia rozwiązania –
+            // po powrocie z rekurencji groups[] zostanie cofnięte do zera
+            bestGroupItems = groupItems;
+            return;
+        }
+
+        // PĘTLA DECYZYJNA: próbujemy wrzucić collection[index] do każdej grupy
+        for (int i = 0; i < K; ++i)
+        {
+            // PRUNING 1: element nie mieści się w tej grupie – suma przekroczyłaby TARGET
+            if (groupsCurrentSum[i] + collection[index] > TARGET) continue;
+
+            // PRUNING 2: ta grupa ma taką samą sumę co poprzednia.
+            // Wrzucenie elementu da identyczny wynik jak do poprzedniej grupy
+            // – pomijamy żeby uniknąć duplikatów i niepotrzebnej pracy.
+            if (i > 0 && groupsCurrentSum[i] == groupsCurrentSum[i - 1]) continue;
+
+            // ZRÓB KROK: wrzuć element do grupy i
+            groupsCurrentSum[i] += collection[index];
+            groupItems[i].push_back(index);
+
+            // IDŹ GŁĘBIEJ: przypisz następny element
+            genSubset(index + 1);
+
+            // CONFNIJ KROK
+            groupsCurrentSum[i] -= collection[index];
+            groupItems[i].pop_back();
+
+            // Jeśli znaleźliśmy rozwiązanie podczas rekurencji – przerywamy pętlę
+            if (found) return;
+        }
+    }
+
+    void test_partition()
+    {
+        std::cout << "Zbior:  [ ";
+        for (auto x : collection) std::cout << x << " ";
+        std::cout << "]\n";
+        std::cout << "TOTAL=" << TOTAL << "  K=" << K << "  TARGET=" << TARGET << "\n\n";
+
+        // Sprawdzamy niemozliwy przypadek zanim odpalimy backtracking
+        if (TOTAL % K != 0)
+        {
+            std::cout << "Niemozliwe – TOTAL=" << TOTAL
+                      << " nie dzieli sie przez K=" << K << "\n";
+            return;
+        }
+
+        genSubset(0);
+
+        if (found)
+        {
+            std::cout << "Mozliwy podzial na " << K << " grupy po " << TARGET << ":\n";
+            for (int i = 0; i < K; i++)
+            {
+                int sum = 0;
+                std::cout << "  Grupa " << i + 1 << ": [ ";
+                for (int idx : bestGroupItems[i])
+                {
+                    std::cout << collection[idx] << " ";
+                    sum += collection[idx];
+                }
+                std::cout << "]  suma = " << sum << "\n";
+            }
+        }
+        else
+        {
+            std::cout << "Niemozliwe – nie da sie podzielic na "
+                      << K << " rowne grupy\n";
+        }
+    }
+
+}  // namespace k_groups_with_equal_sum
+
 
 int main()
 {
-    equal_partition::test_partition();
-    balanced_partition::test_balanced_partition();
+    //equal_partition::test_equal_partition();
+    //balanced_partition::test_balanced_partition();
+    k_groups_with_equal_sum::test_partition();
     return 0;
 }
