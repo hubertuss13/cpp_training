@@ -111,17 +111,44 @@ namespace subsets_with_no_duplicates
     // Opcja A: dodać parametr bool prevTaken do funkcji rekurencyjnej.
     // Opcja B: użyć wektora used[] podobnie jak przy permutacjach.
 
-    std::vector<int> collection = {1, 2, 2};
+    std::vector<int> collection = {2, 1, 2};
     const int N = collection.size();
     int cnt = 0;
     std::vector<int> current;
 
-    void printSubset()
+    void print(std::vector<int> & arr, std::string label = "")
     {
-        std::cout << "[ ";
-        for (int x : current)
+        std::cout << label << " [ ";
+        for (int x : arr)
             std::cout << x << " ";
         std::cout << "]\n";
+    }
+
+
+    int partition(int left, int right)
+    {
+        int pivot = collection[right];
+        int border = left - 1;
+
+        for (int i = left; i < right; ++i)
+        {
+            if (collection[i] <= pivot)
+            {
+                border++;
+                std::swap(collection[border], collection[i]);
+            }
+        }
+        std::swap(collection[border + 1], collection[right]);
+        return (border + 1);
+    }
+
+    void quicksort(int left, int right)
+    {
+        if (left >= right) return;
+
+        int pivotIdx = partition(left, right);
+        quicksort(left, pivotIdx - 1);
+        quicksort(pivotIdx + 1, right);
     }
 
     void genSubset(int index, bool prevTaken)
@@ -129,7 +156,7 @@ namespace subsets_with_no_duplicates
         if (index == N)
         {
             cnt++;
-            printSubset();
+            print(current);
             return;
         }
 
@@ -147,7 +174,9 @@ namespace subsets_with_no_duplicates
 
     void test_no_duplicated_subsets()
     {
-        std::cout << "Test unique subsets from original duplicated set: [1, 2, 2]\n";
+        print(collection, "Test unique subsets from original duplicated set:");
+        quicksort(0, N - 1);
+        print(collection, "Sorted set:");
         genSubset(0, false);
         std::cout << "CNT: " << cnt << std::endl << std::endl;
     }
