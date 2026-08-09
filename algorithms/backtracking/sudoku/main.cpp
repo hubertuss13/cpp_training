@@ -7,13 +7,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ─────────────────────────────────────────────────────────────────────────────
-// IS_SAFE – sprawdza czy można wstawić 'num' do komórki (row, col).
+// IS_VALID – sprawdza czy można wstawić 'num' do komórki (row, col).
 // Sprawdza trzy niezależne warunki Sudoku:
 //   1. Wiersz    – num nie może wystąpić w tym samym wierszu
 //   2. Kolumna   – num nie może wystąpić w tej samej kolumnie
 //   3. Kwadrat   – num nie może wystąpić w tym samym kwadracie 3x3
 // ─────────────────────────────────────────────────────────────────────────────
-bool isSafe(int board[9][9], int row, int col, int num)
+bool isValid(int board[9][9], int row, int col, int num)
 {
     // Lewy górny róg kwadratu 3x3 do którego należy (row, col).
     // Dzielenie całkowite "obcina" resztę, mnożenie przywraca skalę.
@@ -70,7 +70,7 @@ bool solve(int board[9][9])
     }
 
     // WARUNEK STOPU: brak pustych komórek → plansza wypełniona → sukces!
-    // Skoro każda wstawiona cyfra przechodziła przez isSafe(),
+    // Skoro każda wstawiona cyfra przechodziła przez isValid(),
     // wypełniona plansza musi być poprawnym rozwiązaniem.
     if (!foundEmpty) return true;
 
@@ -78,7 +78,7 @@ bool solve(int board[9][9])
     for (int num = 1; num <= 9; num++)
     {
         // PRUNING: cyfra nie spełnia zasad Sudoku – pomijamy
-        if (!isSafe(board, emptyRow, emptyCol, num)) continue;
+        if (!isValid(board, emptyRow, emptyCol, num)) continue;
 
         // ZRÓB KROK: wstaw cyfrę
         board[emptyRow][emptyCol] = num;
