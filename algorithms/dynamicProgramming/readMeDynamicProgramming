@@ -1,0 +1,29 @@
+Kluczowa idea DP:
+Zapamiętaj wynik podproblemu gdy go obliczysz – nigdy nie licz go drugi raz (MEMOIZACJA)
+
+Zamiast rekurencji która liczy to samo wielokrotnie – trzymasz tablicę wyników i sprawdzasz czy już policzyłeś dany podproblem.
+
+Przykład:
+Bez DP:                    Z DP (memoizacja):
+fib(5)                     fib(5)
+├── fib(4)                 ├── fib(4)
+│   ├── fib(3)             │   ├── fib(3)
+│   │   ├── fib(2) ✓       │   │   ├── fib(2) ✓ obliczamy
+│   │   └── fib(1) ✓       │   │   └── fib(1) ✓ obliczamy
+│   └── fib(2) ← ponownie! │   └── fib(2) ← już w tablicy! O(1)
+└── fib(3) ← ponownie!     └── fib(3) ← już w tablicy! O(1)
+
+Złożoność: O(2^n)           Złożoność: O(n)
+
+memoizacja to podejscie Top-down – rekurencja + tablica wyników
+
+Kiedy używać DP?
+Dwa warunki które muszą być spełnione jednocześnie:
+
+1. Optymalna podstruktura:
+   rozwiązanie dużego problemu zależy od rozwiązań mniejszych podproblemów
+
+2. Nakładające się podproblemy:
+   te same podproblemy pojawiają się wielokrotnie
+
+Jeśli oba warunki są spełnione – DP jest właściwym narzędziem.
