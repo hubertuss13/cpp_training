@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <string_view>
 
 // Dlaczego tablica 2D?
 // Bo każdy podproblem jest opisany dwoma parametrami: długością fragmentu X i długością fragmentu Y.
@@ -7,7 +9,7 @@
 // Jak określić rozmiar tablicy?
 // Dla słów X o długości n i Y o długości m:
 // tablica ma rozmiar (n+1) × (m+1)
-// +1 bo potrzebujesz wiersza i kolumny dla pustego słowa (indeks 0). 
+// +1 bo potrzebujesz wiersza i kolumny dla pustego słowa (indeks 0).
 // Pusty fragment X z dowolnym fragmentem Y daje LCS = 0
 // Dla X = "ABC" (n=3) i Y = "AC" (m=2): tablica ma rozmiar 4 × 3 (indeksy 0..3 i 0..2)
 
@@ -75,11 +77,37 @@
 // Dlaczego? Bo dp[i][j] to LCS dla pierwszych i znaków X i pierwszych j znaków Y.
 // Gdy i = n i j = m – masz LCS dla całego X i całego Y.Tego właśnie szukasz.
 
+constexpr std::string_view a = "ABCBDAB", b = "BDCABA";
+constexpr size_t N = a.size();
+constexpr size_t M = b.size();
+int dp[N + 1][M + 1] = {};
 
+int dp_lcs_count()
+{
+    for (size_t i = 1; i <= N; ++i)
+    {
+        for (size_t j = 1; j <= M; ++j)
+        {
+            if (a[i - 1] == b[j - 1])
+            {
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+            }
+            else
+            {
+                dp[i][j] = std::max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    return dp[N][M];
+}
 
 int main()
 {
     std::cout << "===== Dynamic Programming: Longest Common Subsequence (LCS) =====" << std::endl;
+    std::cout << "Print a = " << a << std::endl;
+    std::cout << "Print b = " << b << std::endl;
+    std::cout << "LCS count = " << dp_lcs_count() << std::endl;
+
 
 
     return 0;
