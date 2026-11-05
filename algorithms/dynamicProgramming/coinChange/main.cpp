@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 // Treść zadania:
 // Masz nominały monet, np. {1, 3, 4}, i kwotę do wydania, np. 6.
@@ -53,9 +55,70 @@
 // a = 0 : koniec
 //
 
+
+const int amount = 11;
+int coins[] = {1, 2, 5};
+const int N = 3;
+const int INF = amount + 1;
+std::vector<int> dp(amount + 1, INF);
+
+std::vector<int> lastCoin(amount + 1, -1);
+
+void printCoinDenominations()
+{
+    int a = amount;
+    while (a > 0)
+    {
+        if (lastCoin[a] == -1)
+        {
+            std::cout << "BLAD: brak monety dla a=" << a << "\n";
+            return;
+        }
+        std::cout << "Coin: " << lastCoin[a] << std::endl;
+        a = a - lastCoin[a];
+    }
+}
+
+int coinChange()
+{
+    dp[0] = 0;
+    for (int a = 1; a <= amount; ++a)
+    {
+        for (int c = 0; c < N; ++c)
+        {
+            if (coins[c] <= a)
+            {
+                if (dp[a - coins[c]] + 1 < dp[a])        // najpierw porównaj
+                {
+                    dp[a] = dp[a - coins[c]] + 1;        // potem nadpisz wynik
+                    lastCoin[a] = coins[c];              // i zapamiętaj, która moneta go dała
+                }
+            }
+        }
+    }
+
+    return dp[amount] == INF ? -1 : dp[amount];
+}
+
 int main()
 {
     std::cout << "===== Dynamic Programming: Coin Change =====" << std::endl;
+    std::cout << "Kwota reszty: " << amount << std::endl;
+    std::cout << "Dostepne nominaly: [";
+    for (auto x : coins)
+        std::cout << x << " ";
+    std::cout << "]\n";
+
+    int res = coinChange();
+    if (-1 == res)
+    {
+        std::cout << "Rozwiazanie nieosiagalne, nie da sie wydac reszty!\n";
+    }
+    else
+    {
+        std::cout << "Minimalna liczba monet to: " << res << std::endl << "A ich nominaly:\n";
+        printCoinDenominations();
+    }
 
     return 0;
 }
